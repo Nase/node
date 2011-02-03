@@ -144,7 +144,9 @@ def EscapeCommand(command):
       parts.append('"%s"' % part)
     else:
       parts.append(part)
-  return " ".join(parts)
+  new_command = " ".join(parts)
+  # Stetson edit, trying to get path converted properly
+  return new_command.replace('\\', '\\\\')
 
 
 class SimpleProgressIndicator(ProgressIndicator):
@@ -576,9 +578,7 @@ VARIANT_FLAGS = [[]]
 class TestRepository(TestSuite):
 
   def __init__(self, path):
-    # Stetson edits
-    normalized_path = abspath(path).replace('\\', '\\\\')
-    # assert False, normalized_path
+    normalized_path = abspath(path)
     super(TestRepository, self).__init__(basename(normalized_path))
     self.path = normalized_path
     self.is_loaded = False
@@ -671,12 +671,11 @@ class Context(object):
       name = 'build/default/node'
 
     if utils.IsWindows() and not name.endswith('.exe'):
-	  # Stetson edit
-      name = os.path.abspath(name + '.exe').replace('\\', '\\\\')
+      name = os.path.abspath(name + '.exe')
     return name
 
   def GetVmCommand(self, testcase, mode):
-    return [self.GetVm(mode)] + self.GetVmFlags(testcase, mode)
+    assert Flase, [self.GetVm(mode)] + self.GetVmFlags(testcase, mode)
 
   def GetVmFlags(self, testcase, mode):
     return testcase.variant_flags + FLAGS[mode]
