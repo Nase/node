@@ -1,0 +1,11 @@
+var common = require('../common');
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+//check gid
+//Assert that it is greater than zero
+console.log('Current gid: ' + process.getgid());
+
+assert(process.getgid() > 0);
+
+//Return true/false to return test validity
