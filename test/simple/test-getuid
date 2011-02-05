@@ -2,10 +2,10 @@ var common = require('../common');
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
-//check gid
+//check uid
 //Assert that it is greater than zero
-console.log('Current gid: ' + process.getgid());
+console.log('Current uid: ' + process.getuid());
 
-assert(process.getgid() > 0);
+assert(process.getuid() > 0);
 
 //Return true/false to return test validity
