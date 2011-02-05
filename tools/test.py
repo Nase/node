@@ -576,7 +576,9 @@ VARIANT_FLAGS = [[]]
 class TestRepository(TestSuite):
 
   def __init__(self, path):
-    normalized_path = abspath(path)
+    # Stetson edits
+    normalized_path = abspath(path).replace('\\', '\\\\')
+    # assert False, normalized_path
     super(TestRepository, self).__init__(basename(normalized_path))
     self.path = normalized_path
     self.is_loaded = False
@@ -669,7 +671,8 @@ class Context(object):
       name = 'build/default/node'
 
     if utils.IsWindows() and not name.endswith('.exe'):
-      name = os.path.abspath(name + '.exe')
+	  # Stetson edit
+      name = os.path.abspath(name + '.exe').replace('\\', '\\\\')
     return name
 
   def GetVmCommand(self, testcase, mode):
