@@ -357,7 +357,6 @@ class TestCase(object):
 
   def RunCommand(self, command):
     full_command = self.context.processor(command)
-    self.full_command = full_command
     output = Execute(full_command,
                      self.context,
                      self.context.GetTimeout(self.mode))
@@ -371,9 +370,7 @@ class TestCase(object):
     pass
 
   def AfterRun(self, result):
-    print "COMMAND  "
-    print self.full_command
-    #pass
+    pass
 
   def Run(self):
     self.BeforeRun()
@@ -672,7 +669,7 @@ class Context(object):
       name = 'build/default/node'
 
     if utils.IsWindows() and not name.endswith('.exe'):
-      name = os.path.abspath(name + '.exe')
+      name = os.path.abspath(name + '.exe').replace('\\','\\\\')
     return name
 
   def GetVmCommand(self, testcase, mode):
