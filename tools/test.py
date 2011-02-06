@@ -357,6 +357,7 @@ class TestCase(object):
 
   def RunCommand(self, command):
     full_command = self.context.processor(command)
+    self.full_command = full_command
     output = Execute(full_command,
                      self.context,
                      self.context.GetTimeout(self.mode))
@@ -370,7 +371,9 @@ class TestCase(object):
     pass
 
   def AfterRun(self, result):
-    pass
+    print "COMMAND  "
+    print self.full_command
+    #pass
 
   def Run(self):
     self.BeforeRun()
@@ -576,9 +579,7 @@ VARIANT_FLAGS = [[]]
 class TestRepository(TestSuite):
 
   def __init__(self, path):
-    # Stetson edits
-    normalized_path = abspath(path).replace('\\', '\\\\')
-    # assert False, normalized_path
+    normalized_path = abspath(path)
     super(TestRepository, self).__init__(basename(normalized_path))
     self.path = normalized_path
     self.is_loaded = False
@@ -671,8 +672,7 @@ class Context(object):
       name = 'build/default/node'
 
     if utils.IsWindows() and not name.endswith('.exe'):
-	  # Stetson edit
-      name = os.path.abspath(name + '.exe').replace('\\', '\\\\')
+      name = os.path.abspath(name + '.exe')
     return name
 
   def GetVmCommand(self, testcase, mode):
